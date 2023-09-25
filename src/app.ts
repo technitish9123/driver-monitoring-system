@@ -16,7 +16,7 @@ app.use('/', alertRoutes);
 
 //! Run the rule engine periodically
 
-setInterval(runRuleEngine, 60000); // Run every 1 minutes (60,000 milliseconds)
+setInterval(runRuleEngine, 600);
 
 //! -------------------------
 //! Error handling middleware
