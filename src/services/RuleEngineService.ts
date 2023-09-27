@@ -28,6 +28,8 @@ export const runRuleEngine = async () => {
         // start time of the 5-minute window
         const windowStartTime = new Date(Date.now() - 5 * 60 * 1000);
 
+        console.log("current time", new Date(Date.now()));
+
         // Group events by location type, vehicle ID, and count unsafe driving events
         const locationGroups = await Event.aggregate([
             {
@@ -63,6 +65,8 @@ export const runRuleEngine = async () => {
                         AlertId,
                     });
                     await alert.save();
+
+                    console.log(alert)
 
                     // * --------------------------------------------------------------------------------------------------------
                     // * Update the timestamp of the most recent alert for this vehicle and location type

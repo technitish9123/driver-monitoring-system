@@ -18,7 +18,7 @@ app.use('/', alertRoutes);
 const windowEndTime = new Date(Date.now());
 console.log(windowEndTime);
 
-setInterval(runRuleEngine, 6000); //Interval for the Rule Engine
+setInterval(runRuleEngine, 20000); //Interval for the Rule Engine
 
 //! -------------------------
 //! Error handling middleware
