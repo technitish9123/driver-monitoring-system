@@ -18,7 +18,7 @@ app.use('/', alertRoutes);
 const windowEndTime = new Date(Date.now());
 console.log(windowEndTime);
 
-setInterval(runRuleEngine, 100000);
+setInterval(runRuleEngine, 6000); //Interval for the Rule Engine
 
 //! -------------------------
 //! Error handling middleware
@@ -28,8 +28,5 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
     console.error(err.stack);
     res.status(500).json({ error: 'Internal server error' });
 });
-
-
-
 
 export default app;

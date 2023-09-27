@@ -8,6 +8,10 @@ export interface EventModel extends Document {
     locationType: string;
 }
 
+
+// ? --------------------------------------------------------------------------------------------------------
+// ? Event Schema
+// ? --------------------------------------------------------------------------------------------------------
 const EventSchema = new Schema<EventModel>({
     timestamp: { type: Date, required: true },
     isDrivingSafe: { type: Boolean, required: true },
