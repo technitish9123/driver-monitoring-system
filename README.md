@@ -5,7 +5,9 @@ The Driver Monitoring System (DMS) is a comprehensive solution designed to monit
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [Key Features](#key-features)
+- [System Design](#system-design)
+- [Folder Structure](#folder-structure)
+- [Key Algorithm: Rule Engine](#key-algorithm-rule-engine)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -13,7 +15,8 @@ The Driver Monitoring System (DMS) is a comprehensive solution designed to monit
 - [Usage](#usage)
   - [POST /event Endpoint](#post-event-endpoint)
   - [GET /alert/{alert_id} Endpoint](#get-alertalert_id-endpoint)
-- [Rule Engine](#rule-engine)
+- [Sample Input](#sample-input)
+- [Testing with Postman](#testing-with-postman)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -21,17 +24,63 @@ The Driver Monitoring System (DMS) is a comprehensive solution designed to monit
 
 The Driver Monitoring System is a critical component for any organization that manages a fleet of vehicles. It provides real-time insights into driver behavior, allowing fleet managers to take proactive measures to ensure driver safety. This system uses a combination of IoT devices, machine learning models, and a rule engine to detect and respond to unsafe driving events.
 
-## Key Features
+## System Design
 
-- **Real-time Event Monitoring**: The system continuously monitors driving events, including speeding, phone usage, and other unsafe behaviors.
+The system architecture consists of the following components:
 
-- **Rule-Based Alerting**: The rule engine applies location-specific rules to identify and prioritize alerts based on location types, such as highways, city centers, commercial areas, and residential zones.
+- **API Server**: The API server is built using Node.js and Express.js. It receives driving event data from IoT devices via POST requests and provides alert information through GET requests.
 
-- **Alert Generation**: Alerts are generated when predefined thresholds for unsafe driving events are exceeded. Alerts provide details about the event, location, and severity.
+- **MongoDB Database**: MongoDB is used to store driving events, alerts, and configuration data. It allows for efficient data retrieval and storage.
 
-- **Historical Data Storage**: The system stores historical data about driving events and alerts, allowing for trend analysis and reporting.
+- **Rule Engine**: The Rule Engine processes driving events to generate alerts based on predefined rules. It considers factors such as the location type and the number of unsafe events within a 5-minute window.
 
-- **API Integration**: The system offers RESTful APIs for easy integration with IoT devices and external applications.
+## Folder Structure
+
+The project follows a modular folder structure for better organization:
+
+```plaintext
+driver-monitoring-system/
+|-- src/
+|   |-- controllers/
+|   |   |-- EventController.ts
+|   |   |-- AlertController.ts
+|   |-- models/
+|   |   |-- Event.ts
+|   |   |-- Alert.ts
+|   |-- services/
+|   |   |-- RuleEngineService.ts
+|   |-- routes/
+|   |   |-- eventRoutes.ts
+|   |   |-- alertRoutes.ts
+|   |-- database.ts
+|   |-- app.ts
+|-- config/
+|   |-- config.ts
+|-- index.ts
+|-- package.json
+|-- tsconfig.json
+|-- README.md
+|-- .env
+```
+
+- **controllers**: Contains the controllers for handling events and alerts.
+- **models**: Defines the data models for events and alerts.
+- **services**: Houses the Rule Engine service for alert generation.
+- **routes**: Defines the API routes for events and alerts.
+- **config**: Stores configuration files.
+- **index.ts**: Entry point of the application.
+
+## Key Algorithm: Rule Engine
+
+The Rule Engine plays a crucial role in generating alerts based on predefined rules. It considers the following factors:
+
+1. The system checks for unsafe driving events within the past 5 minutes.
+
+2. It applies location-specific rules to identify and prioritize alerts based on location types, such as highways, city centers, commercial areas, and residential zones.
+
+3. Alerts are generated when predefined thresholds for unsafe driving events are exceeded. Alerts provide details about the event, location, and severity.
+
+4. Historical data is stored, allowing for trend analysis and reporting.
 
 ## Getting Started
 
@@ -93,29 +142,19 @@ The Driver Monitoring System offers a set of RESTful endpoints to interact with 
 - **Request**: Send a GET request to `http://localhost:3000/alert/{alert_id}`, where `{alert_id}` is the ID of the alert you want to retrieve.
 - **Response**: Receive the alert details if the alert with the specified ID exists.
 
-## Rule Engine
+## Sample Input
 
-The Driver Monitoring System employs a rule engine to determine when alerts should be generated. The rules are based on the type of location (e.g., highway, city center) and the number of unsafe driving events within the last 5 minutes. Here are the key rules:
+Here's an example of a driving event JSON payload:
 
-- **Highway**: Generate an alert if there are at least 4 unsafe events in the past 5 minutes.
+```json
+{
+  "timestamp": "2023-09-27T13:36:42.603Z",
+  "isDrivingSafe": "false",
+  "vehicleId": 965,
+  "locationType": "highway"
+}
+```
 
-- **City Center**: Generate an alert if there are at least 3 unsafe events in the past 5 minutes.
+## Testing with Postman
 
-- **Commercial**: Generate an alert if there are at least 2 unsafe events in the past 5 minutes.
-
-- **Residential**: Generate an alert if there is at least 1 unsafe event in the past 5 minutes.
-
-## Contributing
-
-Contributions to the Driver Monitoring System project are welcome! If you would like to contribute, please follow these guidelines:
-
-- Fork the repository on GitHub.
-- Create a new branch for your feature or bug fix.
-- Make your changes and ensure all tests pass.
-- Submit a pull request with a clear description of your changes.
-
-## License
-
-This project is licensed under the [License Name] - see the [LICENSE.md](LICENSE.md) file for details.
-
----
+You can test the Driver Monitoring System using Postman. [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/payload-pilot-41773608/workspace/enview-demo/collection/22391093-bc397cbc-fb02-435b-9580-f21d21543036?action=share&creator=22391093) with sample requests for both POST and GET endpoints.
