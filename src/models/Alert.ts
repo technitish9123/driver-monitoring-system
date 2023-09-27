@@ -2,12 +2,14 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface AlertModel extends Document {
-    eventId: string;
+    AlertId: String
+    locationType: String
     createdAt: Date;
 }
 
 const AlertSchema = new Schema<AlertModel>({
-    eventId: { type: String, required: true },
+    AlertId: { type: String, required: true },
+    locationType: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
 });
 

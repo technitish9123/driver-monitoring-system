@@ -8,7 +8,8 @@ import Alert from '../models/Alert';
 
 export const getAlertById = async (req: Request, res: Response) => {
     try {
-        const alert = await Alert.findById(req.params.alert_id);
+        const AlertId = req.params.alert_id;
+        const alert = await Alert.findOne({ AlertId });
         if (!alert) {
             res.status(404).json({ error: 'Alert not found' });
             return;

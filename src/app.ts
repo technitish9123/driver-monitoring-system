@@ -15,8 +15,10 @@ app.use('/', eventRoutes);
 app.use('/', alertRoutes);
 
 //! Run the rule engine periodically
+const windowEndTime = new Date(Date.now());
+console.log(windowEndTime);
 
-setInterval(runRuleEngine, 600);
+setInterval(runRuleEngine, 100000);
 
 //! -------------------------
 //! Error handling middleware
